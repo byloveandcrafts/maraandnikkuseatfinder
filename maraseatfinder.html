@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mara &amp; Nikku — Find Your Seat · July 18, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Italiana&family=Tenor+Sans&family=Cinzel:wght@400;500;600&family=Pinyon+Script&family=Marcellus&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ════════════ ROOT — WINE & VINEYARD PALETTE ════════════ */
+    :root {
+      --wine: #572932;
+      --wine-dk: #4A0F1C;
+      --wine-md: #6B1F2A;
+      --wine-deeper: #2D0810;
+      --wine-glow: #7A2935;
+      --olive: #808000;
+      --sage: #8A9A5B;
+      --gold: #C8A86B;
+      --gold-lt: #E2C98F;
+      --gold-dk: #8E7340;
+      --ivory: #F5ECD7;
+      --ivory-soft: #FBF6EC;
+      --champagne: #EFE3C8;
+      --linen: #F2E6CC;
+      --ink: #1E0A0F;
+      --ink-soft: #3D1520;
+      --mute: #7A6068;
+      --shadow-deep: rgba(45,8,16,.55);
+      --shadow-mid: rgba(74,15,28,.30);
+      --shadow-soft: rgba(74,15,28,.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--ivory-soft);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* Paper grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: .35;
+      mix-blend-mode: multiply;
+    }
+
+    /* ════════════ ENVELOPE OVERLAY ════════════ */
+    #envelope-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(122,41,53,.55) 0%, transparent 60%),
+        radial-gradient(ellipse at center, var(--wine-dk) 0%, var(--wine-deeper) 100%);
+    }
+    #envelope-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(200,168,107,.6), transparent),
+        radial-gradient(1px 1px at 70% 60%, rgba(200,168,107,.5), transparent),
+        radial-gradient(1px 1px at 40% 80%, rgba(200,168,107,.4), transparent),
+        radial-gradient(1px 1px at 85% 20%, rgba(200,168,107,.6), transparent),
+        radial-gradient(1px 1px at 15% 70%, rgba(200,168,107,.4), transparent);
+    }
+    .env-headline {
+      font-family: 'Italiana', serif;
+      letter-spacing: .4em;
+      font-size: 11px;
+      color: rgba(245,236,215,.6);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+    .magic-envelope {
+      position: relative;
+      width: 320px;
+      height: 230px;
+      z-index: 1;
+      filter: drop-shadow(0 30px 60px rgba(0,0,0,.7));
+    }
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #3a0a14 0%, var(--wine-dk) 40%, var(--wine-md) 100%);
+      border: 1px solid rgba(200,168,107,.5);
+    }
+    .env-body::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(200,168,107,.18);
+      pointer-events: none;
+    }
+    .env-flap {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 60%;
+      background: linear-gradient(160deg, #5a1623 0%, var(--wine-md) 50%, var(--wine-dk) 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform .8s cubic-bezier(.6,-.05,.6,1.05);
+      border-bottom: 1px solid rgba(200,168,107,.25);
+    }
+    .magic-envelope.is-opening .env-flap { transform: rotateX(-180deg); }
+    .env-wax {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 78px; height: 78px;
+      border-radius: 50%;
+      z-index: 3;
+      background: radial-gradient(circle at 35% 30%, #9c2d3b 0%, var(--wine-md) 35%, var(--wine-dk) 80%);
+      border: 2px solid rgba(200,168,107,.55);
+      box-shadow: 0 8px 24px rgba(0,0,0,.6), inset 0 -3px 8px rgba(0,0,0,.4), inset 0 3px 6px rgba(255,255,255,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 28px;
+      color: var(--gold-lt);
+      line-height: 1;
+      padding-top: 4px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.7);
+      transition: transform .5s ease, opacity .5s ease;
+    }
+    .env-wax::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(200,168,107,.45);
+    }
+    .magic-envelope.is-opening .env-wax { transform: translate(-50%,-50%) scale(1.5); opacity: 0; }
+    .env-open-hint {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .45em;
+      color: var(--gold-lt);
+      text-transform: uppercase;
+      animation: fadePulse 1.8s ease infinite;
+      position: relative;
+      z-index: 1;
+    }
+    .env-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: rgba(245,236,215,.55);
+      letter-spacing: .08em;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes fadePulse { 0%,100%{opacity:.85} 50%{opacity:.25} }
+    #envelope-overlay.opened { animation: overlayExit .9s ease forwards; }
+    @keyframes overlayExit { to { opacity:0; pointer-events:none; } }
+    .env-particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 14px;
+      animation: envBurst 1.4s ease forwards;
+    }
+    @keyframes envBurst {
+      0%  { transform:translate(-50%,-50%) translate(0,0) scale(.4); opacity:1; }
+      100%{ transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(1.3); opacity:0; }
+    }
+
+    /* ════════════ HEADER / HERO ════════════ */
+    .page-header {
+      position: relative;
+      background: linear-gradient(180deg, var(--wine-deeper) 0%, var(--wine-dk) 55%, var(--wine-md) 100%);
+      padding: 72px 20px 64px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold-dk) 20%, var(--gold-lt) 50%, var(--gold-dk) 80%, transparent);
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200,168,107,.35) 30%, rgba(200,168,107,.35) 70%, transparent);
+    }
+    /* Stars in header */
+    .header-stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .header-star {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--gold-lt);
+      opacity: 0;
+      animation: twinkle var(--d, 4s) var(--delay, 0s) ease-in-out infinite;
+    }
+    @keyframes twinkle { 0%,100%{opacity:0} 50%{opacity:var(--max-op, .6)} }
+
+    .header-crest {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 22px;
+      background: radial-gradient(circle at 38% 28%, #FFF0BC 0%, #E8C15A 30%, #C8942A 70%, #8E6318 100%);
+      box-shadow: 0 8px 22px rgba(0,0,0,.55), inset 0 -3px 7px rgba(0,0,0,.4), inset 0 3px 6px rgba(255,255,255,.5), 0 0 18px rgba(232,193,90,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 30px;
+      color: #3D1A00;
+      line-height: 1;
+      padding-top: 3px;
+      text-shadow: 0 1px 1px rgba(255,255,255,.5);
+      position: relative;
+      z-index: 1;
+    }
+    .header-crest::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      border: 1px dashed rgba(74,15,28,.45);
+    }
+    .header-crest::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,168,107,.45);
+    }
+    .header-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 9.5px;
+      letter-spacing: .5em;
+      color: var(--gold-lt);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .header-eyebrow::before, .header-eyebrow::after {
+      content: '';
+      width: 36px; height: 1px;
+      background: currentColor;
+      opacity: .55;
+    }
+    .header-names {
+      font-family: 'Pinyon Script', cursive;
+      font-size: clamp(54px, 10vw, 80px);
+      color: var(--gold-lt);
+      line-height: .95;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 18px rgba(0,0,0,.45);
+      position: relative;
+      z-index: 1;
+    }
+    .header-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: rgba(245,236,215,.7);
+      letter-spacing: .12em;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .header-date-line {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .42em;
+      color: rgba(200,168,107,.8);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .header-date-line::before, .header-date-line::after {
+      content: '';
+      width: 22px; height: 1px;
+      background: currentColor;
+      opacity: .55;
+    }
+
+    /* ════════════ SEARCH SECTION ════════════ */
+    .search-section {
+      padding: 60px 20px 50px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .search-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .48em;
+      color: var(--wine-md);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+    .search-label::before, .search-label::after {
+      content: '';
+      width: 28px; height: 1px;
+      background: currentColor; opacity: .55;
+    }
+    .search-headline {
+      font-family: 'Italiana', serif;
+      font-size: clamp(28px, 6vw, 40px);
+      color: var(--wine-dk);
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+    .search-verse {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--mute);
+      margin-bottom: 36px;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto 12px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 18px 58px 18px 24px;
+      border: 1.5px solid rgba(87,41,50,.28);
+      border-radius: 2px;
+      background: rgba(255,255,255,.82);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+      letter-spacing: .04em;
+      box-shadow: 0 2px 14px var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .search-input::placeholder { color: var(--mute); font-style: italic; }
+    .search-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,168,107,.18), 0 4px 18px var(--shadow-mid);
+    }
+    .search-icon {
+      position: absolute;
+      right: 18px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--wine-md);
+      opacity: .6;
+      font-size: 18px;
+      pointer-events: none;
+    }
+    .search-hint {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: var(--mute);
+      font-style: italic;
+      letter-spacing: .04em;
+    }
+
+    /* ════════════ RESULTS ════════════ */
+    .results-area {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      min-height: 180px;
+    }
+
+    /* No search yet / empty state */
+    .state-idle {
+      text-align: center;
+      padding: 40px 0 20px;
+    }
+    .state-idle .idle-orn {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 44px;
+      color: rgba(87,41,50,.18);
+      margin-bottom: 10px;
+    }
+    .state-idle p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--mute);
+      font-size: 15px;
+    }
+
+    /* Not found */
+    .state-notfound {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .state-notfound .nf-orn { font-size: 28px; color: var(--wine-md); margin-bottom: 8px; }
+    .state-notfound h3 {
+      font-family: 'Italiana', serif;
+      font-size: 22px;
+      color: var(--wine-dk);
+      margin-bottom: 8px;
+      letter-spacing: .06em;
+    }
+    .state-notfound p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--mute);
+      font-size: 15px;
+    }
+
+    /* Result card */
+    .result-card {
+      background: linear-gradient(135deg, rgba(255,255,255,.95) 0%, var(--ivory) 100%);
+      border: 1px solid rgba(200,168,107,.45);
+      border-radius: 2px;
+      padding: 40px 36px 36px;
+      position: relative;
+      box-shadow: 0 8px 40px var(--shadow-mid), 0 2px 8px var(--shadow-soft);
+      animation: cardAppear .5s cubic-bezier(.16,1,.3,1) both;
+      text-align: center;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    @keyframes cardAppear {
+      from { opacity:0; transform:translateY(22px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--wine-dk), var(--wine-md), var(--gold), var(--wine-md), var(--wine-dk));
+    }
+    /* corner ornaments */
+    .result-card .rc-corner {
+      position: absolute;
+      width: 22px; height: 22px;
+      border-color: rgba(200,168,107,.55);
+      border-style: solid;
+    }
+    .rc-corner.tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+    .rc-corner.tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+    .rc-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+    .rc-corner.br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+    .result-seal {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 28%, #FFF0BC 0%, #E8C15A 30%, #C8942A 70%, #8E6318 100%);
+      box-shadow: 0 6px 18px rgba(0,0,0,.4), inset 0 -2px 6px rgba(0,0,0,.35), inset 0 2px 5px rgba(255,255,255,.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 24px;
+      color: #3D1A00;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .result-seal::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(200,168,107,.45);
+    }
+
+    .result-guest-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .5em;
+      color: var(--wine-md);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .result-guest-name {
+      font-family: 'Italiana', serif;
+      font-size: clamp(24px, 5vw, 34px);
+      color: var(--wine-dk);
+      letter-spacing: .06em;
+      margin-bottom: 22px;
+      line-height: 1.15;
+    }
+
+    .result-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 auto 22px;
+      max-width: 240px;
+    }
+    .result-divider .rd-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .result-divider .rd-line:last-child {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .result-divider .rd-orn { color: var(--gold); font-size: 12px; }
+
+    .result-table-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 18px 40px;
+      background: linear-gradient(135deg, var(--wine-deeper) 0%, var(--wine-dk) 60%, var(--wine-md) 100%);
+      border: 1px solid rgba(200,168,107,.4);
+      border-radius: 2px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+      margin-bottom: 18px;
+    }
+    .rtb-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: rgba(200,168,107,.7);
+      text-transform: uppercase;
+    }
+    .rtb-table {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 42px;
+      color: var(--gold-lt);
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(0,0,0,.4);
+    }
+    .rtb-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: rgba(245,236,215,.7);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-style: italic;
+    }
+
+    .result-note {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14.5px;
+      color: var(--mute);
+    }
+
+    /* Multi-result list (if multiple matches) */
+    .multi-results-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ════════════ DIVIDER BAND ════════════ */
+    .divider-band {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 42px 24px;
+      gap: 20px;
+    }
+    .divider-band .dline {
+      flex: 1; max-width: 240px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+      position: relative;
+    }
+    .divider-band .dline::before, .divider-band .dline::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 6px; height: 6px;
+      border: 1px solid var(--gold);
+      transform: translateY(-50%) rotate(45deg);
+      background: var(--ivory-soft);
+    }
+    .divider-band .dline::before { left: 0; }
+    .divider-band .dline::after  { right: 0; }
+    .divider-band .dstamp {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #D4A832;
+      background: radial-gradient(circle at 38% 28%, #FFF0BC 0%, #E8C15A 30%, #C8942A 70%, #8E6318 100%);
+      color: #3D1A00;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 24px;
+      line-height: 1;
+      padding-top: 3px;
+      box-shadow: 0 4px 16px rgba(74,15,28,.35), inset 0 2px 4px rgba(255,255,255,.5), inset 0 -2px 4px rgba(0,0,0,.3);
+      position: relative;
+    }
+    .divider-band .dstamp::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border-radius: 50%;
+      border: 1px dashed rgba(200,168,107,.55);
+    }
+
+    /* ════════════ TABLE LEGEND SECTION ════════════ */
+    .legend-section {
+      background: linear-gradient(180deg, var(--wine-deeper) 0%, var(--wine-dk) 100%);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .legend-section .section-head { margin-bottom: 40px; }
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .5em;
+      color: var(--gold-lt);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 14px;
+      opacity: .8;
+    }
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: '';
+      width: 28px; height: 1px;
+      background: currentColor; opacity: .55;
+    }
+    .section-title {
+      font-family: 'Italiana', serif;
+      font-size: clamp(26px,5vw,36px);
+      color: var(--ivory);
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: rgba(245,236,215,.55);
+    }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 24px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .table-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,168,107,.22);
+      border-radius: 2px;
+      padding: 28px 20px 24px;
+      position: relative;
+      transition: background .3s, border-color .3s;
+    }
+    .table-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+      opacity: .5;
+    }
+    .table-card:hover { background: rgba(255,255,255,.07); border-color: rgba(200,168,107,.4); }
+    .tc-number {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 48px;
+      color: var(--gold-lt);
+      line-height: 1;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .tc-name {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .38em;
+      color: rgba(200,168,107,.7);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .tc-rule {
+      width: 40px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 0 auto 14px;
+    }
+    .tc-guests {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13.5px;
+      color: rgba(245,236,215,.6);
+      line-height: 1.9;
+      font-style: italic;
+    }
+    .tc-guest-name { display: block; }
+    .tc-count {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .3em;
+      color: rgba(200,168,107,.5);
+      margin-top: 12px;
+    }
+
+    /* ════════════ FOOTER ════════════ */
+    footer {
+      background: var(--wine-deeper);
+      text-align: center;
+      padding: 50px 20px 44px;
+      border-top: 1px solid rgba(200,168,107,.18);
+    }
+    .footer-script {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 44px;
+      color: var(--gold-lt);
+      line-height: 1;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0,0,0,.4);
+    }
+    .footer-date {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .42em;
+      color: rgba(200,168,107,.6);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .footer-rule {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .fr-line { width: 50px; height: 1px; background: rgba(200,168,107,.35); }
+    .fr-orn { color: var(--gold); font-size: 12px; }
+    .footer-verse {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(245,236,215,.4);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .footer-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .35em;
+      color: rgba(200,168,107,.3);
+      text-transform: uppercase;
+    }
+
+    /* ════════════ CURSOR TRAIL ════════════ */
+    .cursor-particle {
+      position: fixed;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold-lt);
+      pointer-events: none;
+      z-index: 9991;
+      animation: cpFade 1.1s ease forwards;
+    }
+    @keyframes cpFade {
+      0%   { opacity:.85; transform:scale(1); }
+      100% { opacity:0;   transform:scale(0); }
+    }
+
+    /* ════════════ SCROLL REVEAL ════════════ */
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.in { opacity: 1; transform: translateY(0); }
+
+    /* ════════════ RESPONSIVE ════════════ */
+    @media(max-width:600px) {
+      .result-card { padding: 32px 20px 28px; }
+      .rtb-table { font-size: 36px; }
+      .result-table-badge { padding: 14px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ENVELOPE OVERLAY ── -->
+  <div id="envelope-overlay">
+    <div class="env-headline">Mara &amp; Nikku · 18 July 2026</div>
+    <div class="magic-envelope">
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="env-wax">M&amp;N</div>
+    </div>
+    <div class="env-subtitle">Your seat at our table awaits</div>
+    <div class="env-open-hint">Tap to Find Your Seat</div>
+  </div>
+
+  <!-- ── HEADER ── -->
+  <header class="page-header">
+    <div class="header-stars" id="headerStars"></div>
+    <div class="header-crest">M&amp;N</div>
+    <div class="header-eyebrow">Find Your Seat</div>
+    <div class="header-names">Mara &amp; Nikku</div>
+    <div class="header-sub">Wedding Reception · MagnaRich Resort</div>
+    <div class="header-date-line">18 · July · 2026 · Sta. Cruz, Laguna</div>
+  </header>
+
+  <!-- ── SEARCH ── -->
+  <section class="search-section">
+    <div class="search-label">Guest Seating</div>
+    <h1 class="search-headline">Where shall you sit?</h1>
+    <p class="search-verse">Type your name below and we'll guide you to your place.</p>
+
+    <div class="search-box-wrap">
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Enter your name…"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      />
+      <span class="search-icon">❦</span>
+    </div>
+    <div class="search-hint">e.g. "Maria Santos" or just "Maria"</div>
+  </section>
+
+  <!-- ── RESULTS ── -->
+  <div class="results-area" id="resultsArea">
+    <div class="state-idle" id="stateIdle">
+      <div class="idle-orn">❦</div>
+      <p>Your place is reserved — we just need your name.</p>
+    </div>
+  </div>
+
+  <!-- ── DIVIDER ── -->
+  <div class="divider-band">
+    <div class="dline"></div>
+    <div class="dstamp">M&amp;N</div>
+    <div class="dline"></div>
+  </div>
+
+  <!-- ── TABLE LEGEND ── -->
+  <section class="legend-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Reception Layout</div>
+      <h2 class="section-title">The Tables</h2>
+      <p class="section-sub">A warm seat awaits you at every corner.</p>
+    </div>
+    <div class="tables-grid" id="tablesGrid"></div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-script">Mara &amp; Nikku</div>
+    <div class="footer-date">18 · July · 2026 · Sta. Cruz</div>
+    <div class="footer-rule">
+      <div class="fr-line"></div>
+      <div class="fr-orn">~</div>
+      <div class="fr-line"></div>
+    </div>
+    <div class="footer-verse">
+      "Two are better than one, because they have<br>
+      a good return for their labor."<br>
+      — Ecclesiastes 4:9
+    </div>
+    <div class="footer-brand">Love &amp; Crafts · Digital Wedding Invitations</div>
+  </footer>
+
+  <script>
+    /* ══════════════════════════════════════
+       GUEST DATA  — edit names & tables here
+    ══════════════════════════════════════ */
+    const TABLES = [
+      {
+        id: 1,
+        name: "The Vineyard Table",
+        guests: [
+          "Eduardo Rubina",
+          "Leona Rubina",
+          "Daniel Escosar Sr.",
+          "Delma Escosar",
+          "Elyanah Rubina",
+          "Rea Ramos",
+          "Randolf Mangubat",
+          "Samantha Panes",
+          "Jester Julio",
+          "Janelle Jeromiano",
+        ]
+      },
+      {
+        id: 2,
+        name: "The Olive Table",
+        guests: [
+          "Christian Glen Gonzales",
+          "Mia Joy Abis",
+          "Denmark Alicudo",
+          "Mellisa Joy Morandarte",
+          "Jake Esteves",
+          "Ybra Galido Marcelo",
+          "Mark Leo Dereza",
+          "Rhian Adhara Mangubat",
+          "Aela Kamara Arce",
+          "Zaneerah Morandarte",
+        ]
+      },
+      {
+        id: 3,
+        name: "The Harvest Table",
+        guests: [
+          // ── ADD YOUR REMAINING GUESTS HERE ──
+          // Each entry: "First Last",
+          "Guest Name Here",
+          "Guest Name Here",
+          "Guest Name Here",
+        ]
+      }
+    ];
+
+    /* ══════════════════════════════════════
+       BUILD TABLE LEGEND
+    ══════════════════════════════════════ */
+    const grid = document.getElementById('tablesGrid');
+    TABLES.forEach(tbl => {
+      const card = document.createElement('div');
+      card.className = 'table-card rv';
+      card.innerHTML = `
+        <div class="tc-number">${tbl.id}</div>
+        <div class="tc-name">${tbl.name}</div>
+        <div class="tc-rule"></div>
+        <div class="tc-guests">
+          ${tbl.guests.map(g => `<span class="tc-guest-name">${g}</span>`).join('')}
+        </div>
+        <div class="tc-count">${tbl.guests.length} guests</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    /* ══════════════════════════════════════
+       SEARCH LOGIC
+    ══════════════════════════════════════ */
+    const input      = document.getElementById('searchInput');
+    const area       = document.getElementById('resultsArea');
+    const idleState  = document.getElementById('stateIdle');
+
+    function normalise(str) {
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+    }
+
+    function findGuests(query) {
+      const q = normalise(query);
+      if (!q) return [];
+      const matches = [];
+      TABLES.forEach(tbl => {
+        tbl.guests.forEach(name => {
+          if (normalise(name).includes(q)) {
+            matches.push({ name, table: tbl });
+          }
+        });
+      });
+      return matches;
+    }
+
+    function buildCard(match) {
+      const { name, table } = match;
+      return `
+        <div class="result-card">
+          <div class="rc-corner tl"></div>
+          <div class="rc-corner tr"></div>
+          <div class="rc-corner bl"></div>
+          <div class="rc-corner br"></div>
+          <div class="result-seal">❦</div>
+          <div class="result-guest-label">You are seated as</div>
+          <div class="result-guest-name">${name}</div>
+          <div class="result-divider">
+            <div class="rd-line"></div>
+            <div class="rd-orn">◆</div>
+            <div class="rd-line"></div>
+          </div>
+          <div class="result-table-badge">
+            <span class="rtb-label">Your Table</span>
+            <span class="rtb-table">${table.id}</span>
+            <span class="rtb-name">${table.name}</span>
+          </div>
+          <div class="result-note">Please proceed to Table ${table.id} upon arrival.</div>
+        </div>
+      `;
+    }
+
+    function render(query) {
+      const q = query.trim();
+
+      // Clear previous
+      area.innerHTML = '';
+
+      if (!q) {
+        area.appendChild(idleState);
+        return;
+      }
+
+      const matches = findGuests(q);
+
+      if (matches.length === 0) {
+        area.innerHTML = `
+          <div class="state-notfound">
+            <div class="nf-orn">❦</div>
+            <h3>Name Not Found</h3>
+            <p>We couldn't find "<em>${q}</em>" in our guest list.<br>
+            Try a shorter name or check the spelling.</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (matches.length === 1) {
+        area.innerHTML = buildCard(matches[0]);
+      } else {
+        // Multiple results
+        const intro = document.createElement('p');
+        intro.style.cssText = 'text-align:center;font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--mute);margin-bottom:20px;font-size:15px;';
+        intro.textContent = `We found ${matches.length} guests matching "${q}":`;
+        area.appendChild(intro);
+        const list = document.createElement('div');
+        list.className = 'multi-results-list';
+        list.innerHTML = matches.map(buildCard).join('');
+        area.appendChild(list);
+      }
+
+      // Trigger scroll reveal for any new .rv elements
+      area.querySelectorAll('.rv').forEach(el => revObs.observe(el));
+    }
+
+    // Debounce
+    let debTimer;
+    input.addEventListener('input', () => {
+      clearTimeout(debTimer);
+      debTimer = setTimeout(() => render(input.value), 220);
+    });
+
+    /* ══════════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════════ */
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
+      });
+    }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.rv').forEach(el => revObs.observe(el));
+
+    /* ══════════════════════════════════════
+       ENVELOPE
+    ══════════════════════════════════════ */
+    const overlay  = document.getElementById('envelope-overlay');
+    const envelope = document.querySelector('.magic-envelope');
+
+    overlay.addEventListener('click', () => {
+      envelope.classList.add('is-opening');
+      const motifs = ['❦','◆','✦','~'];
+      const colors = ['#C8A86B','#E2C98F','#8A9A5B','#F5ECD7'];
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'env-particle';
+        p.innerText = motifs[Math.floor(Math.random()*motifs.length)];
+        p.style.color = colors[Math.floor(Math.random()*colors.length)];
+        const angle = Math.random()*Math.PI*2;
+        const dist  = Math.random()*220+70;
+        p.style.setProperty('--tx', `${Math.cos(angle)*dist}px`);
+        p.style.setProperty('--ty', `${Math.sin(angle)*dist-60}px`);
+        p.style.left = '50%'; p.style.top = '50%';
+        envelope.appendChild(p);
+      }
+      setTimeout(() => {
+        overlay.classList.add('opened');
+        setTimeout(() => {
+          overlay.remove();
+          // Focus search after opening
+          input.focus();
+        }, 950);
+      }, 1200);
+    }, { once: true });
+
+    /* ══════════════════════════════════════
+       HEADER STARS
+    ══════════════════════════════════════ */
+    const starsContainer = document.getElementById('headerStars');
+    for (let i = 0; i < 28; i++) {
+      const s = document.createElement('div');
+      s.className = 'header-star';
+      const size = .8 + Math.random() * 2;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        --d:${3+Math.random()*5}s;
+        --delay:${Math.random()*4}s;
+        --max-op:${.3+Math.random()*.5};
+      `;
+      starsContainer.appendChild(s);
+    }
+
+    /* ══════════════════════════════════════
+       CURSOR TRAIL
+    ══════════════════════════════════════ */
+    let lastSpark = 0;
+    document.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastSpark < 60) return;
+      lastSpark = now;
+      const p = document.createElement('div');
+      p.className = 'cursor-particle';
+      p.style.left = (e.clientX - 2) + 'px';
+      p.style.top  = (e.clientY - 2) + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1100);
+    });
+  </script>
+</body>
+</html>
