@@ -907,13 +907,6 @@
           "Delma Escosar",
           "Leona Rubina",
           "Eduardo Rubina",
-          "Malusa Umali",
-          "Erikalyn Barroza",
-          "Lheeric Rodillas",
-          "Virginia Bucal",
-          "Susan Marquez",
-          "Veronica Raymundo",
-          "Peter Antonello T. Marquez",
         ]
       },
       {
@@ -929,6 +922,13 @@
           "Cesar Articona",
           "Gerardo Dereza",
           "Normita Gabarda",
+          "Malusa Umali",
+          "Erikalyn Barroza",
+          "Lheeric Rodillas",
+          "Virginia Bucal",
+          "Susan Marquez",
+          "Veronica Raymundo",
+          "Peter Antonello T. Marquez",
         ]
       },
       {
@@ -1064,13 +1064,11 @@
         name: "The Orchard Table",
         guests: [
           "Melvin Dandan",
-          "John Paul Tinio",
           "Dante Parungao",
           "Maria Cecilia Sico",
           "Mildred Cervantes",
           "Michelle Alvarez",
-          "Bea Chua",
-          "Justin Chua",
+          "Ramil Gabarda",
         ]
       },
       {
@@ -1092,11 +1090,12 @@
     ══════════════════════════════════════ */
     const grid = document.getElementById('tablesGrid');
     TABLES.forEach(tbl => {
+      const isSpecial = tbl.id <= 2; // Parents' & Principal Sponsors' tables
       const card = document.createElement('div');
       card.className = 'table-card rv';
       card.innerHTML = `
-        <div class="tc-number">${tbl.id}</div>
-        <div class="tc-name">${tbl.name}</div>
+        ${isSpecial ? '' : `<div class="tc-number">${tbl.id}</div>`}
+        ${isSpecial ? `<div class="tc-name">${tbl.name}</div>` : ''}
         <div class="tc-rule"></div>
         <div class="tc-guests">
           ${tbl.guests.map(g => `<span class="tc-guest-name">${g}</span>`).join('')}
@@ -1133,6 +1132,7 @@
 
     function buildCard(match) {
       const { name, table } = match;
+      const isSpecial = table.id <= 2; // Parents' & Principal Sponsors' tables
       return `
         <div class="result-card">
           <div class="rc-corner tl"></div>
@@ -1149,10 +1149,9 @@
           </div>
           <div class="result-table-badge">
             <span class="rtb-label">Your Table</span>
-            <span class="rtb-table">${table.id}</span>
-            <span class="rtb-name">${table.name}</span>
+            ${isSpecial ? `<span class="rtb-name">${table.name}</span>` : `<span class="rtb-table">${table.id}</span>`}
           </div>
-          <div class="result-note">Please proceed to Table ${table.id} upon arrival.</div>
+          <div class="result-note">${isSpecial ? `Please proceed to the ${table.name} upon arrival.` : `Please proceed to Table ${table.id} upon arrival.`}</div>
         </div>
       `;
     }
